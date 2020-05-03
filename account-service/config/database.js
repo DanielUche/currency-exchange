@@ -16,3 +16,5 @@ const testConnection = async () => {
 
 // // Uncomment to test connection string
 // testConnection();
+
+module.exports = { sequelize, Sequelize };
