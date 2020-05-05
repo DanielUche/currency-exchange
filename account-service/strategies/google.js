@@ -1,1 +1,2 @@
-module.exports = google;
+
+module.exports = () => {};

@@ -1,4 +1,5 @@
 
+const bcrypt = require('bcrypt');
 const { sequelize, Sequelize } = require('../config/database');
 
 const Account = sequelize.define('account', {
@@ -14,15 +15,32 @@ const Account = sequelize.define('account', {
   },
   email: {
     type: Sequelize.STRING,
+    unique: true,
     allowNull: false
   },
-  userid: {
+  password: {
     type: Sequelize.STRING,
     allowNull: true
+  },
+  login_type: {
+    type: Sequelize.STRING,
+    allowNull: false
   }
 }, {
   tableName: 'accounts',
-  sequelize
+  sequelize,
+  hooks: {
+    beforeCreate: (data) => {
+      const account = data;
+      const { password } = account.dataValues;
+      {
+        const salt = bcrypt.genSaltSync(Number(process.env.BCRYPT_SALT));
+        account.dataValues.password = bcrypt.hashSync(password, salt);
+      }
+      return account;
+    }
+  }
 });
+
 
 module.exports = Account;

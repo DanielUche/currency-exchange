@@ -1,1 +1,2 @@
-module.exports = github;
+
+module.exports = () => {};
