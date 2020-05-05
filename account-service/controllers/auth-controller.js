@@ -1,5 +1,6 @@
 const FacebookStrategy = require('../strategies/facebook');
 const LocalStrategy = require('../strategies/local');
+const Logger = require('../utils/logger');
 
 class AuthController {
   static async facebookStrategy(req, res) {
@@ -8,7 +9,7 @@ class AuthController {
       res.status(200).send({ token });
     }
     catch (error) {
-      console.log(error);
+      Logger.error(error);
       res.status(400).send(error.message);
     }
   }
@@ -19,7 +20,7 @@ class AuthController {
       res.status(200).send({ account });
     }
     catch (error) {
-      console.log(error);
+      Logger.error(error);
       res.status(400).send(error.message);
     }
   }
@@ -30,7 +31,7 @@ class AuthController {
       res.status(200).send({ token });
     }
     catch (error) {
-      console.log(error);
+      Logger.error(error);
       res.status(400).send(error.message);
     }
   }
