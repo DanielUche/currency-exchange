@@ -16,7 +16,6 @@ queue.bind(exchange);
 module.exports = {
   start: () => {
     try {
-        console.log('Starting service =======+++++++++++++>');
       queue.activateConsumer(AccountEmailService.accountCreated);
     }
     catch (err) {
