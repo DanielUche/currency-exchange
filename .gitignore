@@ -1,2 +1,5 @@
 # vscode setting folder
 .vscode
+
+# postgres data folder
+postgres/*

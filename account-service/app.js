@@ -6,8 +6,10 @@ const cookieParser = require('cookie-parser');
 const morgan = require('morgan');
 const passport = require('passport');
 
+const config = require('./config');
 
 require('./models/account');
+
 
 
 const app = express();
@@ -23,5 +25,5 @@ app.use(passport.initialize());
 
 require('./routes/index')(app);
 
-
+app.config = config;
 module.exports = app;
