@@ -3,8 +3,8 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "DEBUG=email-templates node --trace-warnings ./bin/www",
-    "debug": "nodemon ./bin/www",
+    "start": "node ./bin/www",
+    "debug": "DEBUG=email-templates nodemon ./bin/www",
     "lint": "eslint . --fix"
   },
   "dependencies": {

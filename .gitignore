@@ -6,3 +6,6 @@ postgres/*
 
 # remove log files
 logs/*
+
+
+.env
