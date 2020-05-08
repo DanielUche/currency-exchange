@@ -26,14 +26,14 @@ RUN apt-get update \
  && apt-get clean \
  && echo 'Finished installing dependencies'
 
+USER node
+
 # Install app dependencies
 COPY --from=base /app/node_modules /app/node_modules
 COPY . /app
 
 ENV NODE_ENV production
 ENV PORT 8000
-
-USER node
 
 EXPOSE 8000
 CMD ["npm", "start"]

@@ -1,6 +1,7 @@
 const FacebookStrategy = require('../strategies/facebook');
 const LocalStrategy = require('../strategies/local');
 const Logger = require('../utils/logger');
+const AccountCreatedMessage = require('../message-bus/send/account-created');
 
 class AuthController {
   static async facebookStrategy(req, res) {
@@ -17,6 +18,7 @@ class AuthController {
   static async localStrategySignup(req, res) {
     try {
       const account = await LocalStrategy.signUp(req.body);
+      AccountCreatedMessage.send(req.body);
       res.status(200).send({ account });
     }
     catch (error) {

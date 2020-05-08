@@ -4,7 +4,7 @@ const config = require('../../config');
 const Logger = require('../../utils/logger');
 const AccountEmailService = require('../../email-services/accouts-emails');
 
-const exchangeName = 'account-created';
+const exchangeName = 'account.created';
 const queueName = '';
 
 const connection = new amqp.Connection(config.messagebus);
@@ -16,6 +16,7 @@ queue.bind(exchange);
 module.exports = {
   start: () => {
     try {
+        console.log('Starting service =======+++++++++++++>');
       queue.activateConsumer(AccountEmailService.accountCreated);
     }
     catch (err) {

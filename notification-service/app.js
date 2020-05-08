@@ -19,5 +19,10 @@ app.use('/', indexRouter);
 app.use('/users', usersRouter);
 
 
+// Start Listening to Subscribed Events
+require('./message-bus/receive/account-created').start();
+
+
+
 app.config = config;
 module.exports = app;

@@ -9,7 +9,7 @@ services:
             - "8000:8000"
         environment: 
             PORT: 8000
-            MESSAGE_BUS: amp://rabbitmq
+            MESSAGE_BUS: amqp://rabbitmq
             DB_URL: ${DB_URL}
             JWT_SECRET: ${JWT_SECRET}
             BCRYPT_SALT: ${BCRYPT_SALT}
@@ -24,12 +24,13 @@ services:
         ports: 
             - "8001:8001"
         environment: 
-            - PORT=8001
-            - MESSAGE_BUS=amp://rabbitmq
+            PORT: 8001
+            MESSAGE_BUS: amqp://rabbitmq
+            MAIL_TRAP_PASS: ${MAIL_TRAP_PASS}
+            MAIL_TRAP_USER: ${MAIL_TRAP_USER}
         links: 
             - rabbitmq
     
-
     postgres:
         container_name: postgres
         image: postgres:latest
@@ -46,7 +47,7 @@ services:
         depends_on:
             - postgres
         ports:
-            - "8888:80"
+            - "8888:8888"
         environment:
             PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
             PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}

@@ -5,11 +5,10 @@ require('dotenv').config({ path: '../.env' });
 
 const { MAIL_TRAP_PASS, MAIL_TRAP_USER } = process.env;
 
-Logger.info(MAIL_TRAP_PASS, '=======', MAIL_TRAP_USER);
-
 const accountCreated = (message) => {
   const account = JSON.parse(message.content.toString());
   const email = new Email({
+    views: { root: __dirname },
     message: {
       from: 'hi@example.com'
     },
@@ -20,17 +19,19 @@ const accountCreated = (message) => {
       ssl: false,
       tls: true,
       auth: {
-        user: `${MAIL_TRAP_USER}`, // your Mailtrap username
-        pass: `${MAIL_TRAP_PASS}` // your Mailtrap password
+        user: `${MAIL_TRAP_USER}`,
+        pass: `${MAIL_TRAP_PASS}`
       }
     }
   });
   try {
+    // email.renderAll('templates/welcome', account);
     email.send({
-      template: 'welcome',
+      template: 'templates/welcome',
       message: {
         to: account.email
-      }
+      },
+      locals: account
     });
   }
   catch (error) {

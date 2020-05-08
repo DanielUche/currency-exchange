@@ -3,3 +3,6 @@
 
 # postgres data folder
 postgres/*
+
+# remove log files
+logs/*
