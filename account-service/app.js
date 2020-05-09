@@ -11,7 +11,6 @@ const config = require('./config');
 require('./models/account');
 
 
-
 const app = express();
 
 app.use(cors());

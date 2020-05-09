@@ -1,7 +1,12 @@
 
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
+
 const Account = require('../models/account');
+const {
+  UnauthorizedException,
+  DatabaseRecordExistException
+} = require('../utils/exceptions');
 
 
 const { JWT_SECRET } = process.env;
@@ -13,7 +18,7 @@ class LocalStrategy {
       where: { email: payload.email }
     });
     if (accountExist) {
-      throw new Error('Account already exist');
+      throw new DatabaseRecordExistException('Account already exist');
     }
     const account = await Account.create(payload);
     return account.get({ plain: true });
@@ -28,9 +33,9 @@ class LocalStrategy {
       if (validPassword) {
         return jwt.sign({ account: accountExist.id }, JWT_SECRET);
       }
-      throw new Error('Invlaid Username and password');
+      throw new UnauthorizedException('Invlaid Username and password');
     }
-    throw new Error('User not found');
+    throw new UnauthorizedException('Account not found');
   }
 }
 

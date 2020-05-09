@@ -1,17 +1,23 @@
 const FacebookStrategy = require('../strategies/facebook');
 const LocalStrategy = require('../strategies/local');
+const Config = require('../config');
 const Logger = require('../utils/logger');
 const AccountCreatedMessage = require('../message-bus/send/account-created');
+const {
+  UnauthorizedException,
+  ValidatorError,
+  DatabaseRecordExistException
+} = require('../utils/exceptions');
 
 class AuthController {
   static async facebookStrategy(req, res) {
     try {
       const token = await FacebookStrategy.getFacebookUser(req.usertoken);
-      res.status(200).send({ token });
+      return res.status(200).send({ token });
     }
     catch (error) {
       Logger.error(error);
-      res.status(400).send(error.message);
+      return res.status(400).send(error.message);
     }
   }
 
@@ -19,22 +25,31 @@ class AuthController {
     try {
       const account = await LocalStrategy.signUp(req.body);
       AccountCreatedMessage.send(req.body);
-      res.status(200).send({ account });
+      return res.status(200).send({ account });
     }
     catch (error) {
+      if (error instanceof DatabaseRecordExistException) {
+        return res.status(error.errorCode).send(error.message);
+      }
       Logger.error(error);
-      res.status(400).send(error.message);
+      return res.status(400).send(error.message);
     }
   }
 
   static async localStrategySignin(req, res) {
     try {
       const token = await LocalStrategy.getToken(req.body);
-      res.status(200).send({ token });
+      return res.status(200).send({ token });
     }
     catch (error) {
+      if (error instanceof UnauthorizedException) {
+        return res.status(error.statusCode).send(error.message);
+      }
+      if (error instanceof ValidatorError) {
+       return res.status(error.errorCode).send('', '', error.message);
+      }
       Logger.error(error);
-      res.status(400).send(error.message);
+      return res.status(400).send(Config.defaultErrMsg);
     }
   }
 }
