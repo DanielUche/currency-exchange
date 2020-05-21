@@ -1,2 +1,11 @@
 # vscode setting folder
 .vscode
+
+# postgres data folder
+postgres/*
+
+# remove log files
+logs/*
+
+
+.env

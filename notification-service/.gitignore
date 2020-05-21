@@ -1,0 +1,8 @@
+# Remove node modules
+node_modules
+
+# Environment File
+.env
+
+# Remove all logs files
+*.log
